@@ -1,0 +1,21 @@
+service: image-info
+app: instagrao
+tenant: brunowildhagen
+provider:
+  name: aws
+  runtime: nodejs8.10
+functions:
+  GetMetadata:
+    handler: handler.GetMetadata
+    events:
+      - http:
+          path: GetMetadata
+          method: get
+  ExtractMetadata:
+    handler: handler.ExtractMetadata
+    events:
+      - s3:
+          event: s3:ObjectCreated:*
+          bucket: instagraoimages
+          rules:
+              - suffix: .jpg
